@@ -48,7 +48,7 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
 
         /* Generate item on view */
         initVariable();
-        displayItem();
+        categoryController.getListItem();
 
         /* Event initialization */
         insertCategory();
@@ -70,6 +70,7 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
 
             addCategory.setOnClickListener(a -> {
                 categoryController.insertCategory(params);
+                categoryController.getListItem();
                 insertDialog.dismiss();
             });
 
@@ -93,9 +94,7 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
     }
 
     @Override
-    public void displayItem() {
-        List<Category> category = categoryController.getListItem();
-
+    public void displayItem( List<Category> category) {
         adapter=new CategoryAdapter(this,category);
         recyclerView.setAdapter(adapter);
     }

@@ -1,6 +1,8 @@
 package com.uniapp.noteapplication.controller;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Parcelable;
 
 import androidx.room.Room;
 
@@ -54,11 +56,23 @@ public class CategoryController implements ICategoryController {
     }
 
     @Override
-    public List<Category> getListItem() {
-        CategoryDao categoryDao = categoryDatabase.getCategoryDao();
-        List<Category> category = categoryDao.getAllCategory();
+    public void getListItem() {
+        new getListItemTask().execute();
+    }
 
-        return category != null ? category : new ArrayList<>();
+    private class getListItemTask extends AsyncTask<Void, List<Category>, List<Category>> {
+        @Override
+        public List<Category> doInBackground(Void... maps) {
+            CategoryDao categoryDao = categoryDatabase.getCategoryDao();
+            List<Category> category = categoryDao.getAllCategory();
+            return category;
+        }
+
+        @Override
+        protected void onPostExecute(List<Category> categoryList) {
+            super.onPostExecute(categoryList);
+            categoryView.displayItem(categoryList);
+        }
     }
 
 }

@@ -7,5 +7,5 @@ import java.util.Map;
 
 public interface ICategoryController {
     void insertCategory(Map<String, Object> params);
-    List<Category> getListItem();
+    void getListItem();
 }
