@@ -1,6 +1,5 @@
 package com.example.note_managerment.controller;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 
@@ -8,7 +7,7 @@ import android.view.View;
 import androidx.room.Room;
 
 import com.example.note_managerment.dao.StatusDao;
-import com.example.note_managerment.database.StatusDatabase;
+import com.example.note_managerment.database.CategoryDatabase;
 import com.example.note_managerment.model.Status;
 import com.example.note_managerment.view.IStatusView;
 
@@ -23,7 +22,7 @@ import java.util.concurrent.Executors;
 public class StatusController implements IStatusController {
     IStatusView statusView;
     View view;
-    private StatusDatabase statusDatabase;
+    private CategoryDatabase statusDatabase;
     String currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
 
 
@@ -31,7 +30,7 @@ public class StatusController implements IStatusController {
         this.statusView = verificationView;
         this.view = view;
         /*statusDatabase = Room.databaseBuilder((Context) verificationView, StatusDatabase.class, StatusDatabase.DB_NAME).build();*/
-        statusDatabase = Room.databaseBuilder(view.getContext(), StatusDatabase.class, StatusDatabase.DB_NAME).build();
+        statusDatabase = Room.databaseBuilder(view.getContext(), CategoryDatabase.class, CategoryDatabase.DB_NAME).build();
     }
 
     public StatusController() {

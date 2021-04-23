@@ -21,7 +21,7 @@ import com.example.note_managerment.R;
 import com.example.note_managerment.adapter.StatusAdapter;
 import com.example.note_managerment.controller.IStatusController;
 import com.example.note_managerment.controller.StatusController;
-import com.example.note_managerment.database.StatusDatabase;
+import com.example.note_managerment.database.CategoryDatabase;
 import com.example.note_managerment.model.Status;
 import com.example.note_managerment.view.IStatusView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,7 +40,7 @@ public class StatusFragment extends Fragment implements IStatusView {
     FloatingActionButton categoryPlus;
     TextView tvTitle;
     EditText txtStatus;
-    StatusDatabase userDatabase;
+    CategoryDatabase userDatabase;
     Button closeDialog,addStatus;
     public Dialog insertDialog;
 

@@ -1,14 +1,17 @@
-package com.example.note_managerment.view;
-
+package com.example.note_managerment.adapter;
 
 import android.view.View;
 
 import com.example.note_managerment.model.Category;
+import com.example.note_managerment.model.Status;
 
 import java.util.List;
 
-public interface ICategoryView {
-    void insertCategory(View view);
+public interface ICategoryAdapter {
+
+    void editCategory(View view, int position);
+
+    void deleteCategory(View view,int position);
 
     void initVariable(View view);
 

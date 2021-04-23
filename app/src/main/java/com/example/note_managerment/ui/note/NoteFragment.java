@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.note_managerment.R;
-import com.example.note_managerment.ui.category.CategoryViewModel;
 
 public class NoteFragment extends Fragment {
 

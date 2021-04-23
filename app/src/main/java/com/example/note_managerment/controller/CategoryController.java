@@ -2,13 +2,16 @@ package com.example.note_managerment.controller;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 
 import androidx.room.Room;
 
 
 import com.example.note_managerment.dao.CategoryDao;
+import com.example.note_managerment.dao.StatusDao;
 import com.example.note_managerment.database.CategoryDatabase;
 import com.example.note_managerment.model.Category;
+import com.example.note_managerment.model.Status;
 import com.example.note_managerment.view.ICategoryView;
 
 import java.text.SimpleDateFormat;
@@ -21,13 +24,15 @@ import java.util.concurrent.Executors;
 
 public class CategoryController implements ICategoryController {
     ICategoryView categoryView;
+    View view;
     private CategoryDatabase categoryDatabase;
     String currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
 
 
-    public CategoryController(ICategoryView verificationView) {
+    public CategoryController(ICategoryView verificationView, View view) {
         this.categoryView = verificationView;
-        categoryDatabase = Room.databaseBuilder((Context) verificationView, CategoryDatabase.class, CategoryDatabase.DB_NAME).build();
+        this.view=view;
+        categoryDatabase = Room.databaseBuilder(view.getContext(), CategoryDatabase.class, CategoryDatabase.DB_NAME).build();
     }
 
     @Override
@@ -46,12 +51,54 @@ public class CategoryController implements ICategoryController {
 
                 });
             } else {
-                categoryView.handleInsertEvent("Please fill all empty fields!");
+                categoryView.handleInsertEvent("Please fill all empty fields!",view);
             }
         } catch (Exception e) {
-            categoryView.handleInsertEvent(e.getMessage());
+            categoryView.handleInsertEvent(e.getMessage(), view);
         }
     }
+
+    @Override
+    public void editCategory(Map<String, Object> params) {
+        try {
+            CategoryDao categoryDao = categoryDatabase.getCategoryDao();
+            Category category = (Category) params.get("category");
+
+            if (!categoryView.isEmpty(category.getName())) {
+                Executor myExecutor = Executors.newSingleThreadExecutor();
+                myExecutor.execute(() -> {
+                    categoryDao.updateCategory(category);
+
+                });
+            } else {
+                categoryView.handleInsertEvent("Please fill all empty fields!",view);
+            }
+        } catch (Exception e) {
+            categoryView.handleInsertEvent(e.getMessage(),view);
+        }
+
+    }
+
+    @Override
+    public void deleteCategory(Map<String, Object> params) {
+        try {
+            CategoryDao categoryDao = categoryDatabase.getCategoryDao();
+            Category category = (Category) params.get("category");
+
+            if (!categoryView.isEmpty(category.getName())) {
+                Executor myExecutor = Executors.newSingleThreadExecutor();
+                myExecutor.execute(() -> {
+                    categoryDao.deleteCategory(category);
+
+                });
+            } else {
+                categoryView.handleInsertEvent("Please fill all empty fields!",view);
+            }
+        } catch (Exception e) {
+            categoryView.handleInsertEvent(e.getMessage(),view);
+        }
+    }
+
 
     @Override
     public void getListItem() {
@@ -60,17 +107,16 @@ public class CategoryController implements ICategoryController {
 
     private class getListItemTask extends AsyncTask<Void, List<Category>, List<Category>> {
         @Override
-        public List<Category> doInBackground(Void... maps) {
+        public List<com.example.note_managerment.model.Category> doInBackground(Void... maps) {
             CategoryDao categoryDao = categoryDatabase.getCategoryDao();
-            List<Category> category = categoryDao.getAllCategory();
-            return category;
+            List<com.example.note_managerment.model.Category> categoryList = categoryDao.getAllCategory();
+            return categoryList;
         }
 
         @Override
-        protected void onPostExecute(List<Category> categoryList) {
+        protected void onPostExecute(List<com.example.note_managerment.model.Category> categoryList) {
             super.onPostExecute(categoryList);
-            categoryView.displayItem(categoryList);
+            categoryView.displayItem(view,categoryList);
         }
     }
-
 }

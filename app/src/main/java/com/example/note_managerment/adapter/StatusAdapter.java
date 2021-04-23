@@ -1,7 +1,6 @@
 package com.example.note_managerment.adapter;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.note_managerment.R;
 import com.example.note_managerment.controller.IStatusController;
 import com.example.note_managerment.controller.StatusController;
-import com.example.note_managerment.database.StatusDatabase;
+import com.example.note_managerment.database.CategoryDatabase;
 import com.example.note_managerment.model.Status;
 import com.example.note_managerment.view.IStatusView;
 import com.example.note_managerment.viewholder.StatusViewHolder;
@@ -37,7 +36,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusViewHolder> implem
     public Dialog editDialog;
     TextView tvTitle;
     EditText txtStatus;
-    StatusDatabase userDatabase;
+    CategoryDatabase userDatabase;
     Button closeDialog,editStatus;
 
     public StatusAdapter adapter;

@@ -15,7 +15,7 @@
         android:id="@+id/nav_gallery"
         android:name="com.example.note_managerment.ui.category.CategoryFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_category" />
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.note_managerment.ui.priority.PriorityFragment"

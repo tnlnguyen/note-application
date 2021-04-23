@@ -40,4 +40,14 @@ public class Category {
     public void setDate(String date) {
         this.date = date;
     }
+
+    public Category(String name, String date) {
+
+        this.name = name;
+        this.date = date;
+    }
+
+    public Category(){
+
+    }
 }
