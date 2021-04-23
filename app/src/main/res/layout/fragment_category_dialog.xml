@@ -8,43 +8,41 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text="Category Form"
-            android:textSize="16dp"
-            android:layout_marginBottom="20dp">
+            android:textSize="16dp">
 
         </TextView>
 
         <EditText
             android:id="@+id/txt_category"
-            android:layout_width="415dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="textPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Name"
-            tools:layout_editor_absoluteX="2dp"
-            tools:layout_editor_absoluteY="103dp" />
+            />
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="59dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/add_category"
             android:layout_width="122dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_marginRight="110dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="70dp"
             android:backgroundTint="#9E9C9C"
             android:text="Add"
             android:textColor="#000000">
@@ -65,5 +63,7 @@
         </Button>
 
     </LinearLayout>
+
+
 
 </LinearLayout>
