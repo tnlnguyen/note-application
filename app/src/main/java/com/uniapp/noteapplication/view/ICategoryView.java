@@ -3,7 +3,7 @@ package com.uniapp.noteapplication.view;
 import android.os.Parcelable;
 
 public interface ICategoryView {
-    void openDialog();
+    void insertCategory();
 
     void initVariable();
 

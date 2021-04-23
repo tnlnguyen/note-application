@@ -5,12 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -55,11 +51,11 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
         displayItem();
 
         /* Event initialization */
-        openDialog();
+        insertCategory();
     }
 
     @Override
-    public void openDialog() {
+    public void insertCategory() {
         categoryPlus.setOnClickListener(v -> {
             insertDialog = new Dialog(this);
             insertDialog.setContentView(R.layout.fragment_category_dialog);
@@ -74,6 +70,7 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
 
             addCategory.setOnClickListener(a -> {
                 categoryController.insertCategory(params);
+                insertDialog.dismiss();
             });
 
             closeDialog.setOnClickListener(c -> {
