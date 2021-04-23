@@ -4,13 +4,16 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import com.uniapp.noteapplication.adapter.CategoryAdapter;
 import com.uniapp.noteapplication.dao.CategoryDao;
 import com.uniapp.noteapplication.database.CategoryDatabase;
 import com.uniapp.noteapplication.model.Category;
 import com.uniapp.noteapplication.view.ICategoryView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -43,6 +46,14 @@ public class CategoryController implements ICategoryController {
         } catch (Exception e) {
             categoryView.handleInsertEvent(e.getMessage());
         }
+    }
+
+    @Override
+    public List<Category> getListItem() {
+        CategoryDao categoryDao = categoryDatabase.getCategoryDao();
+        List<Category> category = categoryDao.getAllCategory();
+
+        return category != null ? category : new ArrayList<Category>();
     }
 
 }

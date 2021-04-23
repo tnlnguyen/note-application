@@ -26,8 +26,8 @@ import java.util.Map;
 
 public class CategoryActivity extends AppCompatActivity implements ICategoryView {
     /* Recycle view variables */
-    CategoryAdapter adapter;
-    RecyclerView recyclerView;
+    public CategoryAdapter adapter;
+    public RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
 
     /* Application variables */
@@ -94,8 +94,7 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
 
     @Override
     public void displayItem() {
-        CategoryDao categoryDao = CategoryDatabase.getCategoryDao();
-        List<Category> category = categoryDao.getAllCategory();
+        List<Category> category = categoryController.getListItem();
 
         adapter=new CategoryAdapter(this,category);
         recyclerView.setAdapter(adapter);
