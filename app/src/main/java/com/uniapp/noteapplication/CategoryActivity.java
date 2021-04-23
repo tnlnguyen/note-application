@@ -19,7 +19,7 @@ import com.uniapp.noteapplication.adapter.CategoryAdapter;
 import com.uniapp.noteapplication.dao.CategoryDao;
 import com.uniapp.noteapplication.database.CategoryDatabase;
 import com.uniapp.noteapplication.model.Category;
-import com.uniapp.noteapplication.view.ICategoryView;
+import com.uniapp.noteapplication.model.ICategoryView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,7 +36,6 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
     Button addCategory;
 
     CategoryDatabase userDatabase;
-
 
     String currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
 
@@ -59,7 +58,16 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
             openDialog(Gravity.CENTER);
         });
 
-        addCategory =findViewById(R.id.add_category);
+    }
+
+    /* Implements functions */
+    @Override
+    public void openDialog(int gravity) {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.fragment_category_dialog);
+        dialog.setCancelable(false);
+
+        addCategory = dialog.findViewById(R.id.add_category);
         addCategory.setOnClickListener(v -> {
             CategoryDao categoryDao =userDatabase.getCategoryDao();
             Category category= new Category();
@@ -72,21 +80,13 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
                     /* Insert user to database */
                     if(category!=null) {
                         categoryDao.insertCategory(category);
-                        Toast.makeText(getApplicationContext(),"Succes", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Success", Toast.LENGTH_LONG).show();
                     }
                 },1000);
             } else {
                 Toast.makeText(this,"Empty Fields", Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    /* Implements functions */
-    @Override
-    public void openDialog(int gravity) {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.fragment_category_dialog);
-        dialog.setCancelable(false);
 
         dialog.show();
     }

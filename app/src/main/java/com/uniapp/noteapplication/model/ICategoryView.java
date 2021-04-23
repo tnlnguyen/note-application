@@ -1,4 +1,4 @@
-package com.uniapp.noteapplication.view;
+package com.uniapp.noteapplication.model;
 
 public interface ICategoryView {
     void openDialog(int gravity);
