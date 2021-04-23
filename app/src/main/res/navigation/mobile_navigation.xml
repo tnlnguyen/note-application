@@ -43,8 +43,4 @@
         android:name="com.example.note_managerment.ui.changepassword.ChangePasswordFragment"
         android:label="@string/menu_changepassword"
         tools:layout="@layout/fragment_changepassword" />
-
-
-
-
 </navigation>

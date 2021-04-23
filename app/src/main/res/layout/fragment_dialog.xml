@@ -8,25 +8,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="119dp"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/txtTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginBottom="20dp"
             android:text="Category Form"
-            android:textSize="16dp"
-            android:layout_marginBottom="20dp">
+            android:textSize="16dp">
 
         </TextView>
 
         <EditText
-            android:id="@+id/txtcategory"
-            android:layout_width="415dp"
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="Name"
+            android:inputType="textPersonName"
             tools:layout_editor_absoluteX="2dp"
             tools:layout_editor_absoluteY="103dp" />
 
@@ -39,11 +40,11 @@
         android:layout_marginBottom="10dp">
 
         <Button
-            android:id="@+id/add_catelgory"
+            android:id="@+id/add_category"
             android:layout_width="122dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_marginRight="150dp"
+            android:layout_marginRight="110dp"
             android:layout_marginLeft="5dp"
             android:backgroundTint="#9E9C9C"
             android:text="Add"
