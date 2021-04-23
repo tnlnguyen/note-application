@@ -1,5 +1,6 @@
 package com.uniapp.noteapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +10,9 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,6 +26,7 @@ import com.uniapp.noteapplication.view.ICategoryView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CategoryActivity extends AppCompatActivity implements ICategoryView {
@@ -33,7 +37,7 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
 
     FloatingActionButton categoryPlus;
     EditText txtCategory;
-    Button addCategory;
+    Button addCategory, closeDialog;
 
     CategoryDatabase userDatabase;
 
@@ -51,58 +55,124 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
         recyclerView.setLayoutManager(layoutManager);
 
         initView();
-        userDatabase= Room.databaseBuilder(this, CategoryDatabase.class, CategoryDatabase.DB_NAME)
-            .allowMainThreadQueries()
-            .build();
+        generateItem();
 
         categoryPlus.setOnClickListener(v -> {
-            openDialog(Gravity.CENTER);
+            open_dialog(Gravity.CENTER);
         });
 
-        addCategory =findViewById(R.id.add_category);
-        addCategory.setOnClickListener(v -> {
-            CategoryDao categoryDao =userDatabase.getCategoryDao();
-            Category category= new Category();
-            category.setName(txtCategory != null ? txtCategory.getText().toString() : "");
-            category.setDate(currentDate);
+        registerForContextMenu(recyclerView);
 
-            if(!isEmpty()) {
-                new Handler().postDelayed(() -> {
 
-                    /* Insert user to database */
-                    if(category!=null) {
-                        categoryDao.insertCategory(category);
-                        Toast.makeText(getApplicationContext(),"Succes", Toast.LENGTH_LONG).show();
-                    }
-                },1000);
-            } else {
-                Toast.makeText(this,"Empty Fields", Toast.LENGTH_LONG).show();
-            }
-        });
+
+
     }
 
-    /* Implements functions */
-    @Override
-    public void openDialog(int gravity) {
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//
+//        getMenuInflater().inflate(R.menu.category_longclick_menu, menu);
+//    }
+
+
+
+
+    //create dialog
+    public void open_dialog( int gravity)
+    {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.fragment_category_dialog);
         dialog.setCancelable(false);
 
+        txtCategory = dialog.findViewById(R.id.txt_category);
+        Button close_dialog = dialog.findViewById(R.id.close_catelgory);
+        Button add_category = dialog.findViewById(R.id.add_category);
+
+        close_dialog.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        add_category.setOnClickListener(v -> {
+
+            CategoryDatabase userDataBase = Room.databaseBuilder(this, CategoryDatabase.class, CategoryDatabase.DB_NAME)
+                    .allowMainThreadQueries()
+                    .build();
+
+            CategoryDao categoryDAO = userDataBase.getCategoryDao();
+            Category category = new Category();
+            category.setName(txtCategory.getText().toString());
+            category.setDate(currentDate);
+
+            if (!isEmpty()) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //insertcategory
+                        if (category != null) {
+                            categoryDAO.insertCategory(category);
+                            Toast.makeText(getApplicationContext(), "Succes", Toast.LENGTH_LONG).show();
+                            generateItem();
+                            dialog.dismiss();
+                        }
+
+                    }
+                }, 1000);
+            } else {
+                Toast.makeText(this, "Empty Fields", Toast.LENGTH_LONG).show();
+            }
+
+        });
+
         dialog.show();
+
+        generateItem();
+
+    }
+
+    private void generateItem()
+    {
+        CategoryDatabase userDataBase= Room.databaseBuilder(this, CategoryDatabase.class,CategoryDatabase.DB_NAME)
+                .allowMainThreadQueries()
+                .build();
+
+        CategoryDao categoryDAO = userDataBase.getCategoryDao();
+        List<Category> category = categoryDAO.getAllCategory();
+
+        adapter=new CategoryAdapter(this,category);
+        recyclerView.setAdapter(adapter);
+    }
+
+//        private void delete()
+//        {
+//            UserDataBase userDataBase= Room.databaseBuilder(this, UserDataBase.class,"my_db")
+//                    .allowMainThreadQueries()
+//                    .build();
+//
+//            CategoryDAO categoryDAO = userDataBase.getCategoryDao();
+//            categoryDAO.deleteCategory();
+//        }
+
+
+    @Override
+    public void openDialog(int gravity) {
+
     }
 
     @Override
     public void initView() {
-        categoryPlus =findViewById(R.id.floatingActionButton);
-        txtCategory =findViewById(R.id.txt_category);
-        addCategory =findViewById(R.id.add_category);
+
+        categoryPlus=findViewById(R.id.floatingActionButton);
+
     }
 
-    @Override
-    public boolean isEmpty() {
+    public  boolean isEmpty()
+    {
         if(TextUtils.isEmpty(txtCategory.getText().toString()))
+
             return true;
         else
-            return false;
+            return  false;
     }
 }
