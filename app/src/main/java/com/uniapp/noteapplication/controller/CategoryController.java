@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class CategoryController implements ICategoryController {
     ICategoryView categoryView;
@@ -38,8 +40,11 @@ public class CategoryController implements ICategoryController {
             category.setDate(currentDate);
 
             if (!categoryView.isEmpty(txtCategory)) {
-                categoryDao.insertCategory(category);
-                categoryView.handleInsertEvent("Successfully!");
+                Executor myExecutor = Executors.newSingleThreadExecutor();
+                myExecutor.execute(() -> {
+                    categoryDao.insertCategory(category);
+                    categoryView.handleInsertEvent("Successfully!");
+                });
             } else {
                 categoryView.handleInsertEvent("Please fill all empty fields!");
             }
@@ -53,7 +58,7 @@ public class CategoryController implements ICategoryController {
         CategoryDao categoryDao = categoryDatabase.getCategoryDao();
         List<Category> category = categoryDao.getAllCategory();
 
-        return category != null ? category : new ArrayList<Category>();
+        return category != null ? category : new ArrayList<>();
     }
 
 }
