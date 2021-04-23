@@ -3,7 +3,9 @@ package com.uniapp.noteapplication.controller;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
+import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
 import com.uniapp.noteapplication.adapter.CategoryAdapter;
@@ -41,11 +43,14 @@ public class CategoryController implements ICategoryController {
             category.setName(txtCategory);
             category.setDate(currentDate);
 
-            if (!categoryView.isEmpty(txtCategory)) {
+            if (!isEmpty(txtCategory)) {
                 Executor myExecutor = Executors.newSingleThreadExecutor();
                 myExecutor.execute(() -> {
                     categoryDao.insertCategory(category);
                     categoryView.processDialogDisable();
+                    ContextCompat.getMainExecutor((Context) categoryView).execute(()  -> {
+                        categoryView.handleInsertEvent("Successfully!");
+                    });
                 });
             } else {
                 categoryView.handleInsertEvent("Please fill all empty fields!");
@@ -58,6 +63,14 @@ public class CategoryController implements ICategoryController {
     @Override
     public void getListItem() {
         new getListItemTask().execute();
+    }
+
+    @Override
+    public boolean isEmpty(String textBox) {
+        if(TextUtils.isEmpty(textBox))
+            return true;
+        else
+            return false;
     }
 
     private class getListItemTask extends AsyncTask<Void, List<Category>, List<Category>> {

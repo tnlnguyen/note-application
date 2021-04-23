@@ -11,8 +11,6 @@ public interface ICategoryView {
 
     void initVariable();
 
-    boolean isEmpty(String textBox);
-
     void displayItem( List<Category> category);
 
     void handleInsertEvent(String message);

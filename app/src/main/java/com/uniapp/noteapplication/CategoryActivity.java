@@ -64,7 +64,6 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
         addCategory = insertDialog.findViewById(R.id.add_category);
 
         categoryPlus.setOnClickListener(v -> {
-
             insertDialog.show();
         });
 
@@ -95,17 +94,9 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
     }
 
     @Override
-    public void displayItem( List<Category> category) {
+    public void displayItem(List<Category> category) {
         adapter=new CategoryAdapter(this,category);
         recyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public boolean isEmpty(String textBox) {
-        if(TextUtils.isEmpty(textBox))
-            return true;
-        else
-            return false;
     }
 
     /* Events */

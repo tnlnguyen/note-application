@@ -7,5 +7,8 @@ import java.util.Map;
 
 public interface ICategoryController {
     void insertCategory(Map<String, Object> params);
+
     void getListItem();
+
+    boolean isEmpty(String textBox);
 }
