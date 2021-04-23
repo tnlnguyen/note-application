@@ -83,7 +83,7 @@ public class StatusFragment extends Fragment implements IStatusView {
 
         addStatus.setOnClickListener(a -> {
             Map<String, Object> params = new HashMap<>();
-            params.put("category", txtStatus.getText().toString());
+            params.put("status", txtStatus.getText().toString());
 
             statusController.insertStatus(params);
             statusController.getListItem();
@@ -116,7 +116,7 @@ public class StatusFragment extends Fragment implements IStatusView {
 
     @Override
     public void displayItem(View view,List<Status> status) {
-        adapter=new StatusAdapter(view.getContext(),status);
+        adapter=new StatusAdapter(view,status,recyclerView);
         recyclerView.setAdapter(adapter);
     }
 

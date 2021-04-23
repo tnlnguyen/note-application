@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 
+
 import androidx.room.Room;
 
 import com.example.note_managerment.dao.StatusDao;
@@ -50,6 +51,46 @@ public class StatusController implements IStatusController {
                 Executor myExecutor = Executors.newSingleThreadExecutor();
                 myExecutor.execute(() -> {
                     statusDao.insertStatus(status);
+
+                });
+            } else {
+                statusView.handleInsertEvent("Please fill all empty fields!",view);
+            }
+        } catch (Exception e) {
+            statusView.handleInsertEvent(e.getMessage(),view);
+        }
+    }
+
+    @Override
+    public void editStatus(Map<String, Object> params) {
+        try {
+            StatusDao statusDao = statusDatabase.getStatusDao();
+            Status status = (Status) params.get("status");
+
+            if (!statusView.isEmpty(status.getName())) {
+                Executor myExecutor = Executors.newSingleThreadExecutor();
+                myExecutor.execute(() -> {
+                    statusDao.updateStatus(status);
+
+                });
+            } else {
+                statusView.handleInsertEvent("Please fill all empty fields!",view);
+            }
+        } catch (Exception e) {
+            statusView.handleInsertEvent(e.getMessage(),view);
+        }
+    }
+
+    @Override
+    public void deleteStatus(Map<String, Object> params) {
+        try {
+            StatusDao statusDao = statusDatabase.getStatusDao();
+            Status status = (Status) params.get("status");
+
+            if (!statusView.isEmpty(status.getName())) {
+                Executor myExecutor = Executors.newSingleThreadExecutor();
+                myExecutor.execute(() -> {
+                    statusDao.deleteStatus(status);
 
                 });
             } else {

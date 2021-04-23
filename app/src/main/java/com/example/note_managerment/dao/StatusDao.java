@@ -23,6 +23,6 @@ public interface StatusDao {
     void updateStatus(Status... statuses);
 
     @Delete
-    void deleteStatus(Status status_rooms);
+    void deleteStatus(Status... status_rooms);
 
 }
