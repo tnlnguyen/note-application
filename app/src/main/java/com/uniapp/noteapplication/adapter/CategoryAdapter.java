@@ -36,8 +36,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        holder.name_category.setText(categoryList.get(position).getName());
-        holder.date_category.setText(categoryList.get(position).getDate());
+        holder.name.setText(categoryList.get(position).getName());
+        holder.date.setText(categoryList.get(position).getDate());
     }
 
     @Override

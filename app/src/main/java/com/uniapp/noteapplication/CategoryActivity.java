@@ -1,178 +1,121 @@
 package com.uniapp.noteapplication;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Parcelable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.uniapp.noteapplication.adapter.CategoryAdapter;
+import com.uniapp.noteapplication.controller.CategoryController;
+import com.uniapp.noteapplication.controller.ICategoryController;
 import com.uniapp.noteapplication.dao.CategoryDao;
 import com.uniapp.noteapplication.database.CategoryDatabase;
 import com.uniapp.noteapplication.model.Category;
 import com.uniapp.noteapplication.view.ICategoryView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 public class CategoryActivity extends AppCompatActivity implements ICategoryView {
-
+    /* Recycle view variables */
     CategoryAdapter adapter;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
 
+    /* Application variables */
     FloatingActionButton categoryPlus;
     EditText txtCategory;
-    Button addCategory, closeDialog;
-
     CategoryDatabase userDatabase;
+    Button closeDialog;
+    Button addCategory;
+    public Dialog insertDialog;
 
-
-    String currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
+    ICategoryController categoryController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        categoryController  = new CategoryController(this);
 
+        /* Generate item on view */
+        initVariable();
+        displayItem();
+
+        /* Event initialization */
+        openDialog();
+    }
+
+    @Override
+    public void openDialog() {
+        categoryPlus.setOnClickListener(v -> {
+            insertDialog = new Dialog(this);
+            insertDialog.setContentView(R.layout.fragment_category_dialog);
+            insertDialog.setCancelable(false);
+
+            txtCategory = insertDialog.findViewById(R.id.txt_category);
+            closeDialog = insertDialog.findViewById(R.id.close_catelgory);
+            addCategory = insertDialog.findViewById(R.id.add_category);
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("category", txtCategory.getText().toString());
+
+            addCategory.setOnClickListener(a -> {
+                categoryController.insertCategory(params);
+            });
+
+            closeDialog.setOnClickListener(c -> {
+                insertDialog.dismiss();
+            });
+
+            insertDialog.show();
+        });
+    }
+
+    /* Initialization functions */
+    @Override
+    public void initVariable() {
+        categoryPlus=findViewById(R.id.floatingActionButton);
         recyclerView=findViewById(R.id.rv_category);
         recyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        initView();
-        generateItem();
-
-        categoryPlus.setOnClickListener(v -> {
-            open_dialog(Gravity.CENTER);
-        });
-
         registerForContextMenu(recyclerView);
-
-
-
-
     }
 
-//    @Override
-//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-//        super.onCreateContextMenu(menu, v, menuInfo);
-//
-//        getMenuInflater().inflate(R.menu.category_longclick_menu, menu);
-//    }
-
-
-
-
-    //create dialog
-    public void open_dialog( int gravity)
-    {
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.fragment_category_dialog);
-        dialog.setCancelable(false);
-
-        txtCategory = dialog.findViewById(R.id.txt_category);
-        Button close_dialog = dialog.findViewById(R.id.close_catelgory);
-        Button add_category = dialog.findViewById(R.id.add_category);
-
-        close_dialog.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
-
-        add_category.setOnClickListener(v -> {
-
-            CategoryDatabase userDataBase = Room.databaseBuilder(this, CategoryDatabase.class, CategoryDatabase.DB_NAME)
-                    .allowMainThreadQueries()
-                    .build();
-
-            CategoryDao categoryDAO = userDataBase.getCategoryDao();
-            Category category = new Category();
-            category.setName(txtCategory.getText().toString());
-            category.setDate(currentDate);
-
-            if (!isEmpty()) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        //insertcategory
-                        if (category != null) {
-                            categoryDAO.insertCategory(category);
-                            Toast.makeText(getApplicationContext(), "Succes", Toast.LENGTH_LONG).show();
-                            generateItem();
-                            dialog.dismiss();
-                        }
-
-                    }
-                }, 1000);
-            } else {
-                Toast.makeText(this, "Empty Fields", Toast.LENGTH_LONG).show();
-            }
-
-        });
-
-        dialog.show();
-
-        generateItem();
-
-    }
-
-    private void generateItem()
-    {
-        CategoryDatabase userDataBase= Room.databaseBuilder(this, CategoryDatabase.class,CategoryDatabase.DB_NAME)
-                .allowMainThreadQueries()
-                .build();
-
-        CategoryDao categoryDAO = userDataBase.getCategoryDao();
+    @Override
+    public void displayItem() {
+        CategoryDao categoryDAO = userDatabase.getCategoryDao();
         List<Category> category = categoryDAO.getAllCategory();
 
         adapter=new CategoryAdapter(this,category);
         recyclerView.setAdapter(adapter);
     }
 
-//        private void delete()
-//        {
-//            UserDataBase userDataBase= Room.databaseBuilder(this, UserDataBase.class,"my_db")
-//                    .allowMainThreadQueries()
-//                    .build();
-//
-//            CategoryDAO categoryDAO = userDataBase.getCategoryDao();
-//            categoryDAO.deleteCategory();
-//        }
-
-
     @Override
-    public void openDialog(int gravity) {
-
-    }
-
-    @Override
-    public void initView() {
-
-        categoryPlus=findViewById(R.id.floatingActionButton);
-
-    }
-
-    public  boolean isEmpty()
-    {
-        if(TextUtils.isEmpty(txtCategory.getText().toString()))
-
+    public boolean isEmpty(String textBox) {
+        if(TextUtils.isEmpty(textBox))
             return true;
         else
-            return  false;
+            return false;
     }
+
+    /* Events */
+    @Override
+    public void handleInsertEvent(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
 }

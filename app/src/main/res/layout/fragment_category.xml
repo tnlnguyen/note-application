@@ -21,7 +21,7 @@
             android:gravity="start" />
 
         <TextView
-            android:id="@+id/category"
+            android:id="@+id/name_category"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:textAlignment="viewStart"

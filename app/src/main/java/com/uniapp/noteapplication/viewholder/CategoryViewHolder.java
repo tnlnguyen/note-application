@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.uniapp.noteapplication.R;
 
 public class CategoryViewHolder extends RecyclerView.ViewHolder {
-    public TextView name_category;
-    public TextView date_category;
+    public TextView name;
+    public TextView date;
 
     public CategoryViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        name_category= itemView.findViewById(R.id.category);
-        date_category= itemView.findViewById(R.id.date_category);
+        name = itemView.findViewById(R.id.name_category);
+        date = itemView.findViewById(R.id.date_category);
     }
 
 }
