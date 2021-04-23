@@ -11,5 +11,4 @@ public abstract class CategoryDatabase extends RoomDatabase {
     public static final String DB_NAME = "my_db";
 
     public abstract CategoryDao getCategoryDao();
-
 }
