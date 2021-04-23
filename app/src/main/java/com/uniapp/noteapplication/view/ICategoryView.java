@@ -1,21 +1,22 @@
 package com.uniapp.noteapplication.view;
 
 import android.os.Parcelable;
+import android.view.View;
 
 import com.uniapp.noteapplication.model.Category;
 
 import java.util.List;
 
 public interface ICategoryView {
-    void insertCategory();
+    void insertCategory(View view);
 
-    void initVariable();
+    void initVariable(View view);
 
-    void displayItem( List<Category> category);
+    void displayItem(View view, List<Category> category);
 
-    void handleInsertEvent(String message);
+    void handleInsertEvent(View view,String message);
 
-    void processDialogEnable();
+    void processDialogEnable(View view);
 
     void processDialogDisable();
 }

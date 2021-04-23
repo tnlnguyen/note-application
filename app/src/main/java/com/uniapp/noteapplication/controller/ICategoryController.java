@@ -1,5 +1,7 @@
 package com.uniapp.noteapplication.controller;
 
+import android.view.View;
+
 import com.uniapp.noteapplication.model.Category;
 
 import java.util.List;

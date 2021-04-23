@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.view.View;
 
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
@@ -25,13 +26,15 @@ import java.util.concurrent.Executors;
 
 public class CategoryController implements ICategoryController {
     ICategoryView categoryView;
+    View view;
     private CategoryDatabase categoryDatabase;
     String currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
 
 
-    public CategoryController(ICategoryView verificationView) {
+    public CategoryController(ICategoryView verificationView, View view) {
         this.categoryView = verificationView;
-        categoryDatabase = Room.databaseBuilder((Context) verificationView, CategoryDatabase.class, CategoryDatabase.DB_NAME).build();
+        this.view = view;
+        categoryDatabase = Room.databaseBuilder(view.getContext(), CategoryDatabase.class, CategoryDatabase.DB_NAME).build();
     }
 
     @Override
@@ -49,14 +52,14 @@ public class CategoryController implements ICategoryController {
                     categoryDao.insertCategory(category);
                     categoryView.processDialogDisable();
                     ContextCompat.getMainExecutor((Context) categoryView).execute(()  -> {
-                        categoryView.handleInsertEvent("Successfully!");
+                        categoryView.handleInsertEvent(view,"Successfully!");
                     });
                 });
             } else {
-                categoryView.handleInsertEvent("Please fill all empty fields!");
+                categoryView.handleInsertEvent(view,"Please fill all empty fields!");
             }
         } catch (Exception e) {
-            categoryView.handleInsertEvent(e.getMessage());
+            categoryView.handleInsertEvent(view, e.getMessage());
         }
     }
 
@@ -77,14 +80,13 @@ public class CategoryController implements ICategoryController {
         @Override
         public List<Category> doInBackground(Void... maps) {
             CategoryDao categoryDao = categoryDatabase.getCategoryDao();
-            List<Category> category = categoryDao.getAllCategory();
-            return category;
+            return categoryDao.getAllCategory();
         }
 
         @Override
         protected void onPostExecute(List<Category> categoryList) {
             super.onPostExecute(categoryList);
-            categoryView.displayItem(categoryList);
+            categoryView.displayItem(view, categoryList);
         }
     }
 

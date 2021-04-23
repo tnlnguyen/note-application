@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
             editor.apply();
         }
 
-        startActivity(new Intent(LoginActivity.this, CategoryActivity.class));
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
         finish();
     }
 
