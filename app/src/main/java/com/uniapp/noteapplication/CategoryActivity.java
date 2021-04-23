@@ -56,29 +56,28 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
 
     @Override
     public void insertCategory() {
+        txtCategory = insertDialog.findViewById(R.id.txt_category);
+        closeDialog = insertDialog.findViewById(R.id.close_catelgory);
+        addCategory = insertDialog.findViewById(R.id.add_category);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", txtCategory.getText().toString());
+
         categoryPlus.setOnClickListener(v -> {
             insertDialog = new Dialog(this);
             insertDialog.setContentView(R.layout.fragment_category_dialog);
             insertDialog.setCancelable(false);
-
-            txtCategory = insertDialog.findViewById(R.id.txt_category);
-            closeDialog = insertDialog.findViewById(R.id.close_catelgory);
-            addCategory = insertDialog.findViewById(R.id.add_category);
-
-            Map<String, Object> params = new HashMap<>();
-            params.put("category", txtCategory.getText().toString());
-
-            addCategory.setOnClickListener(a -> {
-                categoryController.insertCategory(params);
-                categoryController.getListItem();
-                insertDialog.dismiss();
-            });
-
-            closeDialog.setOnClickListener(c -> {
-                insertDialog.dismiss();
-            });
-
             insertDialog.show();
+        });
+
+        addCategory.setOnClickListener(a -> {
+            categoryController.insertCategory(params);
+            categoryController.getListItem();
+            insertDialog.dismiss();
+        });
+
+        closeDialog.setOnClickListener(c -> {
+            insertDialog.dismiss();
         });
     }
 
