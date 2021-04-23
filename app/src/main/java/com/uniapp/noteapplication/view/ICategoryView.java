@@ -16,4 +16,8 @@ public interface ICategoryView {
     void displayItem( List<Category> category);
 
     void handleInsertEvent(String message);
+
+    void processDialogEnable();
+
+    void processDialogDisable();
 }

@@ -45,7 +45,7 @@ public class CategoryController implements ICategoryController {
                 Executor myExecutor = Executors.newSingleThreadExecutor();
                 myExecutor.execute(() -> {
                     categoryDao.insertCategory(category);
-
+                    categoryView.processDialogDisable();
                 });
             } else {
                 categoryView.handleInsertEvent("Please fill all empty fields!");

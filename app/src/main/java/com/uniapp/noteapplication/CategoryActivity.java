@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -15,8 +16,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.uniapp.noteapplication.adapter.CategoryAdapter;
 import com.uniapp.noteapplication.controller.CategoryController;
 import com.uniapp.noteapplication.controller.ICategoryController;
-import com.uniapp.noteapplication.dao.CategoryDao;
-import com.uniapp.noteapplication.database.CategoryDatabase;
 import com.uniapp.noteapplication.model.Category;
 import com.uniapp.noteapplication.view.ICategoryView;
 
@@ -33,9 +32,9 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
     /* Application variables */
     FloatingActionButton categoryPlus;
     EditText txtCategory;
-    CategoryDatabase userDatabase;
     Button closeDialog;
     Button addCategory;
+    ProgressDialog progressDialog;
     public Dialog insertDialog;
 
     ICategoryController categoryController;
@@ -56,10 +55,10 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
 
     @Override
     public void insertCategory() {
-
         insertDialog = new Dialog(this);
         insertDialog.setContentView(R.layout.fragment_category_dialog);
         insertDialog.setCancelable(false);
+
         txtCategory = insertDialog.findViewById(R.id.txt_category);
         closeDialog = insertDialog.findViewById(R.id.close_catelgory);
         addCategory = insertDialog.findViewById(R.id.add_category);
@@ -73,9 +72,10 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
             Map<String, Object> params = new HashMap<>();
             params.put("category", txtCategory.getText().toString());
 
+            insertDialog.dismiss();
+            processDialogEnable();
             categoryController.insertCategory(params);
             categoryController.getListItem();
-            insertDialog.dismiss();
         });
 
         closeDialog.setOnClickListener(c -> {
@@ -114,4 +114,18 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void processDialogEnable() {
+        progressDialog = new ProgressDialog(CategoryActivity.this);
+        progressDialog.setContentView(R.layout.activity_category);
+        progressDialog.getWindow().setBackgroundDrawableResource(
+                R.color.transparent
+        );
+        progressDialog.show();
+    }
+
+    @Override
+    public void processDialogDisable() {
+        progressDialog.dismiss();
+    }
 }
