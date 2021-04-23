@@ -94,8 +94,8 @@ public class CategoryActivity extends AppCompatActivity implements ICategoryView
 
     @Override
     public void displayItem() {
-        CategoryDao categoryDAO = userDatabase.getCategoryDao();
-        List<Category> category = categoryDAO.getAllCategory();
+        CategoryDao categoryDao = CategoryDatabase.getCategoryDao();
+        List<Category> category = categoryDao.getAllCategory();
 
         adapter=new CategoryAdapter(this,category);
         recyclerView.setAdapter(adapter);

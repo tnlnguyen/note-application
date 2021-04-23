@@ -10,6 +10,8 @@ import com.uniapp.noteapplication.model.Category;
 public abstract class CategoryDatabase extends RoomDatabase {
     public static final String DB_NAME = "my_db";
 
-    public abstract CategoryDao getCategoryDao();
+    public static CategoryDao getCategoryDao() {
+        return null;
+    }
 
 }
