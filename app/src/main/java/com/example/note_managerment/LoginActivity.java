@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         sharedPreferences = getSharedPreferences("DataLogin", MODE_PRIVATE);
-        accountController = new AccountController(this, null);
+        accountController = new AccountController(this, null, null);
 
         initVariable();
         handleEvent();

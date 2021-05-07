@@ -16,6 +16,28 @@ public class Account {
     @ColumnInfo(name="email")
     String email;
 
+    @ColumnInfo(name="firstname")
+    String firstname;
+
+    @ColumnInfo(name="lastname")
+    String lastname;
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -7,8 +7,11 @@ import androidx.core.content.ContextCompat;
 import androidx.room.Room;
 
 import com.example.note_managerment.dao.AccountDao;
+import com.example.note_managerment.dao.CategoryDao;
 import com.example.note_managerment.database.CategoryDatabase;
 import com.example.note_managerment.model.Account;
+import com.example.note_managerment.model.Category;
+import com.example.note_managerment.view.IChangePasswordView;
 import com.example.note_managerment.view.ILoginView;
 import com.example.note_managerment.view.ISignupView;
 
@@ -19,12 +22,14 @@ import java.util.concurrent.Executors;
 public class AccountController implements IAccountController {
     ILoginView loginView;
     ISignupView signupView;
+    IChangePasswordView changePasswordView;
 
     private CategoryDatabase accountDatabase;
 
-    public AccountController(ILoginView loginView, ISignupView signupView) {
+    public AccountController(ILoginView loginView, ISignupView signupView, IChangePasswordView changePasswordView) {
         this.loginView = loginView;
         this.signupView = signupView;
+        this.changePasswordView = changePasswordView;
 
         if (loginView != null) {
             accountDatabase = Room.databaseBuilder((Context) loginView, CategoryDatabase.class, CategoryDatabase.DB_NAME)            .fallbackToDestructiveMigration()
@@ -39,6 +44,7 @@ public class AccountController implements IAccountController {
     public void login(Map<String, Object> params) {
         String email = (String) params.get("email");
         String password = (String) params.get("password");
+
 
         if(!isEmpty(email, password)) {
             Executor myExecutor = Executors.newSingleThreadExecutor();
@@ -96,6 +102,24 @@ public class AccountController implements IAccountController {
         }
     }
 
+    @Override
+    public void changePassword(Map<String, Object> params) {
+        String password = (String) params.get("password");
+        String newPassword = (String) params.get("newPassword");
+        String confirm = (String) params.get("confirm");
+
+        if(!isChangePassEmpty(password, newPassword, confirm))
+        {
+
+
+
+        } if(!isNewPasstrue(newPassword, confirm)){
+            changePasswordView.handleInsertEvent("Password doesn't match!");
+        }
+        else {
+            changePasswordView.handleInsertEvent("Please fill all empty fields");
+        }
+    }
 
 
     @Override
@@ -115,4 +139,22 @@ public class AccountController implements IAccountController {
         else
             return  false;
     }
+    @Override
+    public boolean isChangePassEmpty(String password, String newPassword, String confirm) {
+        if(TextUtils.isEmpty(newPassword)
+                ||TextUtils.isEmpty(password)
+                ||TextUtils.isEmpty(confirm))
+            return true;
+        else
+            return  false;
+    }
+
+    @Override
+    public boolean isNewPasstrue(String newPassword, String confirm) {
+        if(newPassword.equals(confirm))
+            return true;
+        else
+            return  false;
+    }
+
 }

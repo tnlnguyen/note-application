@@ -18,7 +18,6 @@ import com.example.note_managerment.model.Status;
 @Database(entities = {Category.class, Status.class, Account.class, Note.class, Priority.class}, version = 3)
 public abstract class CategoryDatabase extends RoomDatabase {
     public static final String DB_NAME = "my_db";
-
     public abstract CategoryDao getCategoryDao();
     public abstract StatusDao getStatusDao();
     public abstract AccountDao getAccountDao();
