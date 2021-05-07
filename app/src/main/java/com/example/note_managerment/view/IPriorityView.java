@@ -4,18 +4,18 @@ import android.view.View;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.note_managerment.model.Status;
+import com.example.note_managerment.model.Priority;
 
 import java.util.List;
 
-public interface IStatusView {
-    void insertStatus(View view);
+public interface IPriorityView {
+    void insertPriority(View view);
 
     void initVariable(View view);
 
     boolean isEmpty(String textBox);
 
-    void displayItem(View view, List<Status> status);
+    void displayItem(View view, List<Priority> priorityList);
 
     void handleInsertEvent(String message, View view);
 

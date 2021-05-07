@@ -1,7 +1,6 @@
 package com.example.note_managerment.controller;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 
@@ -10,10 +9,8 @@ import androidx.room.Room;
 
 
 import com.example.note_managerment.dao.CategoryDao;
-import com.example.note_managerment.dao.StatusDao;
 import com.example.note_managerment.database.CategoryDatabase;
 import com.example.note_managerment.model.Category;
-import com.example.note_managerment.model.Status;
 import com.example.note_managerment.view.ICategoryView;
 
 import java.text.SimpleDateFormat;

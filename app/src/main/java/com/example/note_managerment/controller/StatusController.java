@@ -1,9 +1,10 @@
 package com.example.note_managerment.controller;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.view.View;
 
-
+import androidx.fragment.app.FragmentActivity;
 import androidx.room.Room;
 
 import com.example.note_managerment.dao.StatusDao;
@@ -23,12 +24,14 @@ public class StatusController implements IStatusController {
     IStatusView statusView;
     View view;
     private CategoryDatabase statusDatabase;
+    FragmentActivity fragmentActivity;
     String currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
 
 
-    public StatusController(IStatusView verificationView, View view) {
+    public StatusController(IStatusView verificationView, View view, FragmentActivity fragmentActivity) {
         this.statusView = verificationView;
         this.view = view;
+        this.fragmentActivity = fragmentActivity;
         /*statusDatabase = Room.databaseBuilder((Context) verificationView, StatusDatabase.class, StatusDatabase.DB_NAME).build();*/
         statusDatabase = Room.databaseBuilder(view.getContext(), CategoryDatabase.class, CategoryDatabase.DB_NAME).build();
     }
@@ -102,10 +105,21 @@ public class StatusController implements IStatusController {
 
     @Override
     public void getListItem() {
-        new getListItemTask().execute();
+        new getListItemTask(fragmentActivity).execute();
     }
 
     private class getListItemTask extends AsyncTask<Void, List<Status>, List<Status>> {
+        private ProgressDialog dialog;
+
+        public getListItemTask(FragmentActivity fragmentActivity) {
+            dialog = new ProgressDialog(fragmentActivity);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Doing something, please wait.");
+            dialog.show();
+        }
         @Override
         public List<com.example.note_managerment.model.Status> doInBackground(Void... maps) {
             StatusDao statusDao = statusDatabase.getStatusDao();
@@ -116,8 +130,13 @@ public class StatusController implements IStatusController {
         @Override
         protected void onPostExecute(List<com.example.note_managerment.model.Status> statusList) {
             super.onPostExecute(statusList);
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
             statusView.displayItem(view,statusList);
         }
     }
+
+
 
 }

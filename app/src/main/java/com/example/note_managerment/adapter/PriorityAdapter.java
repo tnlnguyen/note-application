@@ -16,12 +16,13 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.note_managerment.R;
+import com.example.note_managerment.controller.IPriorityController;
 import com.example.note_managerment.controller.IStatusController;
-import com.example.note_managerment.controller.StatusController;
+import com.example.note_managerment.controller.PriorityController;
 import com.example.note_managerment.database.CategoryDatabase;
-import com.example.note_managerment.model.Status;
-import com.example.note_managerment.view.IStatusView;
-import com.example.note_managerment.viewholder.StatusViewHolder;
+import com.example.note_managerment.model.Priority;
+import com.example.note_managerment.view.IPriorityView;
+import com.example.note_managerment.viewholder.PriorityViewHolder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,45 +31,45 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class StatusAdapter extends RecyclerView.Adapter<StatusViewHolder> implements IStatusAdapter {
+public class PriorityAdapter extends RecyclerView.Adapter<PriorityViewHolder> implements IPriorityAdapter {
     View view;
-    List<Status> statusList;
+    List<Priority> priorityList;
     public Dialog editDialog;
     TextView tvTitle;
-    EditText txtStatus;
+    EditText txtPriority;
     CategoryDatabase userDatabase;
-    Button closeDialog,editStatus;
+    Button closeDialog,editPriority;
 
-    public StatusAdapter adapter;
+    public PriorityAdapter adapter;
     public RecyclerView recyclerView;
 
-    IStatusController statusController;
+    IPriorityController priorityController;
 
     String currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
 
-    public StatusAdapter(View view, List<Status> statusList, RecyclerView recyclerView, IStatusController statusController) {
+    public PriorityAdapter(View view, List<Priority> priorityList, RecyclerView recyclerView, IPriorityController priorityController) {
         this.view = view;
-        this.statusList = statusList;
+        this.priorityList = priorityList;
         this.recyclerView = recyclerView;
-        this.statusController=statusController;
+        this.priorityController=priorityController;
     }
 
     @NonNull
     @Override
-    public StatusViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PriorityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View itemview= LayoutInflater.from(view.getContext())
                 .inflate(R.layout.fragment_status_item, parent, false);
 
-        return new StatusViewHolder(itemview);
+        return new PriorityViewHolder(itemview);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StatusViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PriorityViewHolder holder, int position) {
         // Inflate the layout for this fragment
 
-        holder.name.setText(statusList.get(position).getName());
-        holder.date.setText(statusList.get(position).getDate());
+        holder.name.setText(priorityList.get(position).getName());
+        holder.date.setText(priorityList.get(position).getDate());
 
 
 
@@ -77,7 +78,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusViewHolder> implem
             {
                 //creating a popup menu
 
-                editStatus(view,position1);
+                editPriority(view,position1);
 
                 PopupMenu popup = new PopupMenu(view.getContext(), holder.itemView);
                 //inflating menu from xml resource
@@ -87,10 +88,10 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusViewHolder> implem
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.edit:
-                                editDialog.show();
+                            editDialog.show();
                             break;
                         case R.id.delete:
-                                deleteStatus(view,position);
+                            deletePriority(view,position);
                             break;
                     }
                     return false;
@@ -108,37 +109,38 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusViewHolder> implem
 
     @Override
     public int getItemCount() {
-        return statusList.size();
+        return priorityList.size();
     }
 
     @Override
-    public void editStatus(View view,int position) {
+    public void editPriority(View view,int position) {
 
         editDialog = new Dialog(view.getContext());
         editDialog.setContentView(R.layout.fragment_dialog);
         editDialog.setCancelable(false);
-        txtStatus = editDialog.findViewById(R.id.txtName);
+        txtPriority = editDialog.findViewById(R.id.txtName);
         closeDialog = editDialog.findViewById(R.id.close_catelgory);
-        editStatus = editDialog.findViewById(R.id.add_category);
+        editPriority = editDialog.findViewById(R.id.add_category);
         tvTitle = editDialog.findViewById(R.id.txtTitle);
 
-        tvTitle.setText("Status Form");
-        txtStatus.setText(statusList.get(position).getName());
+        tvTitle.setText("Priority Form");
+        txtPriority.setText(priorityList.get(position).getName());
 
-        editStatus.setText("Edit");
+        editPriority.setText("Edit");
 
-        editStatus.setOnClickListener(a -> {
+        editPriority.setOnClickListener(a -> {
             Map<String, Object> params = new HashMap<>();
 
-            Status status = new Status();
-            status.setId(statusList.get(position).getId());
-            status.setName(txtStatus.getText().toString());
-            status.setDate(currentDate);
+            Priority priority = new Priority();
+            priority.setId(priorityList.get(position).getId());
+            priority.setName(txtPriority.getText().toString());
+            priority.setDate(currentDate);
 
-            params.put("status", status);
+            params.put("priority", priority);
 
-            statusController.editStatus(params);
-            statusController.getListItem();
+            priorityController.editPriority(params);
+            priorityController.getListItem();
+            notifyDataSetChanged();
             editDialog.dismiss();
         });
 
@@ -148,18 +150,18 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusViewHolder> implem
     }
 
     @Override
-    public void deleteStatus(View view, int position) {
+    public void deletePriority(View view, int position) {
         Map<String, Object> params = new HashMap<>();
 
-        Status status = new Status();
-        status.setId(statusList.get(position).getId());
-        status.setName(statusList.get(position).getName());
-        status.setDate(statusList.get(position).getDate());
+        Priority priority = new Priority();
+        priority.setId(priorityList.get(position).getId());
+        priority.setName(priorityList.get(position).getName());
+        priority.setDate(priorityList.get(position).getDate());
 
-        params.put("status", status);
+        params.put("priority", priority);
 
-        statusController.deleteStatus(params);
-        statusController.getListItem();
+        priorityController.deletePriority(params);
+        priorityController.getListItem();
         notifyDataSetChanged();
     }
 

@@ -11,11 +11,11 @@ public interface IStatusAdapter {
 
     void deleteStatus(View view,int position);
 
-    void initVariable(View view);
-
-    boolean isEmpty(String textBox);
-
-    void displayItem(View view, List<Status> status);
-
-    void handleInsertEvent(String message, View view);
+//    void initVariable(View view);
+//
+//    boolean isEmpty(String textBox);
+//
+//    void displayItem(View view, List<Status> status);
+//
+//    void handleInsertEvent(String message, View view);
 }

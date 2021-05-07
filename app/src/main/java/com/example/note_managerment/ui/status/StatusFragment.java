@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,6 +46,7 @@ public class StatusFragment extends Fragment implements IStatusView {
     public Dialog insertDialog;
 
     IStatusController statusController;
+    public FragmentActivity   fragmentActivity;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -55,11 +57,12 @@ public class StatusFragment extends Fragment implements IStatusView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Inflate the layout for this fragment
-        statusController  = new StatusController(this,view);
+        statusController  = new StatusController(this,view,getActivity());
         //* Generate item on view *//*
         initVariable(view);
         statusController.getListItem();
 
+        fragmentActivity = getActivity();
 
         //* Event initialization *//*
         insertStatus(view);
@@ -87,6 +90,7 @@ public class StatusFragment extends Fragment implements IStatusView {
 
             statusController.insertStatus(params);
             statusController.getListItem();
+
             insertDialog.dismiss();
         });
 
@@ -111,17 +115,24 @@ public class StatusFragment extends Fragment implements IStatusView {
             return true;
         else
             return false;
-
     }
 
     @Override
     public void displayItem(View view,List<Status> status) {
-        adapter=new StatusAdapter(view,status,recyclerView);
+        adapter=new StatusAdapter(view,status,recyclerView,statusController);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void handleInsertEvent(String message,View view) {
         Toast.makeText(view.getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        {
+            return fragmentActivity;
+        }
     }
 }

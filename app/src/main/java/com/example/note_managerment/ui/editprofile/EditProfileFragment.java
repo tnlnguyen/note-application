@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.note_managerment.R;
-import com.example.note_managerment.ui.priority.PriorityViewModel;
 
 public class EditProfileFragment extends Fragment {
     private EditProfileViewModel editProfileViewModel;
