@@ -1,8 +1,10 @@
 package com.example.note_managerment.controller;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.view.View;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.room.Room;
 
 import com.example.note_managerment.dao.CategoryDao;
@@ -12,6 +14,7 @@ import com.example.note_managerment.dao.StatusDao;
 import com.example.note_managerment.database.CategoryDatabase;
 import com.example.note_managerment.model.Note;
 import com.example.note_managerment.model.Priority;
+import com.example.note_managerment.model.Status;
 import com.example.note_managerment.view.INoteView;
 
 import java.text.SimpleDateFormat;
@@ -26,12 +29,14 @@ public class NoteController implements INoteController {
     INoteView noteView;
     View view;
     private CategoryDatabase statusDatabase;
+    FragmentActivity fragmentActivity;
     String currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
 
 
-    public NoteController(INoteView verificationView, View view) {
+    public NoteController(INoteView verificationView, View view, FragmentActivity fragmentActivity) {
         this.noteView = verificationView;
         this.view = view;
+        this.fragmentActivity = fragmentActivity;
         /*statusDatabase = Room.databaseBuilder((Context) verificationView, StatusDatabase.class, StatusDatabase.DB_NAME).build();*/
         statusDatabase = Room.databaseBuilder(view.getContext(), CategoryDatabase.class, CategoryDatabase.DB_NAME).build();
     }
@@ -100,52 +105,12 @@ public class NoteController implements INoteController {
         }
     }
 
-   /* public void getListCategory() {
-        try {
-            CategoryDao categoryDao = statusDatabase.getCategoryDao();
-            Executor myExecutor = Executors.newSingleThreadExecutor();
-            myExecutor.execute(() -> {
-                categoryDao.getAllCategory();
-
-            });
-        } catch (Exception e) {
-            noteView.handleInsertEvent(e.getMessage(),view);
-        }
-    }
-
-    public List<Priority> getListPriority() {
-        try {
-            PriorityDao priorityDao = statusDatabase.getPriorityDao();
-            Executor myExecutor = Executors.newSingleThreadExecutor();
-            myExecutor.execute(() -> {
-                return priorityDao.getAllPriority();
-
-            });
-        } catch (Exception e) {
-            noteView.handleInsertEvent(e.getMessage(),view);
-        }
-    }
-
-
-    public void getListStatus() {
-        try {
-            StatusDao statusDao = statusDatabase.getStatusDao();
-            Executor myExecutor = Executors.newSingleThreadExecutor();
-            myExecutor.execute(() -> {
-                statusDao.getAllStatus();
-
-            });
-        } catch (Exception e) {
-            noteView.handleInsertEvent(e.getMessage(),view);
-        }
-    }*/
-
     @Override
     public void getListItem() {
-        new getListItemTask().execute();
+        new getListItemTask(fragmentActivity).execute();
     }
 
-    private class getListItemTask extends AsyncTask<Void, List<Note>, List<Note>> {
+    /*private class getListItemTask extends AsyncTask<Void, List<Note>, List<Note>> {
         @Override
         public List<com.example.note_managerment.model.Note> doInBackground(Void... maps) {
             NoteDao noteDao = statusDatabase.getNoteDao();
@@ -157,6 +122,34 @@ public class NoteController implements INoteController {
         protected void onPostExecute(List<com.example.note_managerment.model.Note> notelist) {
             super.onPostExecute(notelist);
             noteView.displayItemNote(view,notelist);
+        }
+    }*/
+    private class getListItemTask extends AsyncTask<Void, List<Note>, List<Note>> {
+        private ProgressDialog dialog;
+
+        public getListItemTask(FragmentActivity fragmentActivity) {
+            dialog = new ProgressDialog(fragmentActivity);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Doing something, please wait.");
+            dialog.show();
+        }
+        @Override
+        public List<com.example.note_managerment.model.Note> doInBackground(Void... maps) {
+            NoteDao noteDao = statusDatabase.getNoteDao();
+            List<com.example.note_managerment.model.Note> noteList = noteDao.getAllNote();
+            return noteList;
+        }
+
+        @Override
+        protected void onPostExecute(List<com.example.note_managerment.model.Note> noteList) {
+            super.onPostExecute(noteList);
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            noteView.displayItemNote(view,noteList);
         }
     }
 }

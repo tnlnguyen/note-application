@@ -93,7 +93,7 @@ public class NoteFragment extends Fragment implements INoteView, IStatusView, IP
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Inflate the layout for this fragment
-        noteController  = new NoteController(this,view);
+        noteController  = new NoteController(this,view,getActivity());
 
         statusController = new StatusController(this,view,getActivity());
 

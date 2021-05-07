@@ -96,7 +96,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> implements
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         // Inflate the layout for this fragment
-        noteController  = new NoteController(this,view);
+        noteController  = new NoteController(this,view,fragmentActivity);
 
         statusController = new StatusController(this,view,fragmentActivity);
 
