@@ -87,10 +87,10 @@ public class NoteFragment extends Fragment implements INoteView {
     @Override
     public void insertNote(View view) {
         insertDialog = new Dialog(view.getContext());
-        insertDialog.setContentView(R.layout.fragment_dialog);
+        insertDialog.setContentView(R.layout.fragment_dialog_note);
         insertDialog.setCancelable(false);
-        btnAddEdit = (Button) insertDialog.findViewById(R.id.add_category);
-        btnClose = (Button) insertDialog.findViewById(R.id.close_catelgory);
+        btnAddEdit = (Button) insertDialog.findViewById(R.id.btAdd);
+        btnClose = (Button) insertDialog.findViewById(R.id.btClose);
         btChooserDate = (Button) insertDialog.findViewById(R.id.btChooseDate);
         tvPlanDate = (TextView) insertDialog.findViewById(R.id.tvPlanDate);
         spinCategory = (Spinner) insertDialog.findViewById(R.id.spinCategory);

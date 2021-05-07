@@ -52,7 +52,7 @@ public class CategoryFragment extends Fragment implements ICategoryView {
 
         public View onCreateView(@NonNull LayoutInflater inflater,
                                  ViewGroup container, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_status, container, false);
+            return inflater.inflate(R.layout.fragment_category, container, false);
         }
 
         @Override

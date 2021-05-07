@@ -23,7 +23,6 @@ public class EditProfileFragment extends Fragment {
         editProfileViewModel =
                 new ViewModelProvider(this).get(EditProfileViewModel.class);
         View root = inflater.inflate(R.layout.fragment_editprofile, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
         editProfileViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

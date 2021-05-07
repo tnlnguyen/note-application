@@ -12,15 +12,15 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_category"
         android:name="com.example.note_managerment.ui.category.CategoryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_category" />
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_priority"
         android:name="com.example.note_managerment.ui.priority.PriorityFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_priority" />
 
     <fragment
         android:id="@+id/nav_status"
