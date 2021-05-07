@@ -118,11 +118,12 @@ public class StatusFragment extends Fragment implements IStatusView {
     }
 
     @Override
-    public void displayItem(View view,List<Status> status) {
+    public void displayItemStatus(View view, List<Status> status) {
         adapter=new StatusAdapter(view,status,recyclerView,statusController);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
+
 
     @Override
     public void handleInsertEvent(String message,View view) {

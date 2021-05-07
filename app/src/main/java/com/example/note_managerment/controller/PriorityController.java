@@ -133,7 +133,7 @@ public class PriorityController implements IPriorityController {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-            priorityView.displayItem(view,priorityList);
+            priorityView.displayItemPriority(view,priorityList);
         }
     }
 

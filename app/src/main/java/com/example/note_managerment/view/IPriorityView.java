@@ -15,7 +15,7 @@ public interface IPriorityView {
 
     boolean isEmpty(String textBox);
 
-    void displayItem(View view, List<Priority> priorityList);
+    void displayItemPriority(View view, List<Priority> priorityList);
 
     void handleInsertEvent(String message, View view);
 

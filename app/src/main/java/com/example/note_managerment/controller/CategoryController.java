@@ -130,7 +130,7 @@ public class CategoryController implements ICategoryController {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-            categoryView.displayItem(view,categoryList);
+            categoryView.displayItemCategory(view,categoryList);
         }
     }
 }

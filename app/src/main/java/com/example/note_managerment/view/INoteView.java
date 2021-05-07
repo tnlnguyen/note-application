@@ -14,7 +14,7 @@ public interface INoteView {
 
     boolean isEmpty(String textBox);
 
-    void displayItem(View view, List<Note> note);
+    void displayItemNote(View view, List<Note> note);
 
     void handleInsertEvent(String message, View view);
 }

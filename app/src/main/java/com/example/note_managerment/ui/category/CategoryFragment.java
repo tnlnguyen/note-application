@@ -133,12 +133,13 @@ public class CategoryFragment extends Fragment implements ICategoryView {
                 return false;
         }
 
-        @Override
-        public void displayItem(View view, List<Category> category) {
-            adapter=new CategoryAdapter(view,category,recyclerView, categoryController);
-            recyclerView.setAdapter(adapter);
+    @Override
+    public void displayItemCategory(View view, List<Category> category) {
+        adapter=new CategoryAdapter(view,category,recyclerView, categoryController);
+        recyclerView.setAdapter(adapter);
+    }
 
-        }
+
 
         @Override
         public void handleInsertEvent(String message, View view) {

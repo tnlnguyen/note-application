@@ -5,9 +5,13 @@ import android.view.View;
 
 import androidx.room.Room;
 
+import com.example.note_managerment.dao.CategoryDao;
 import com.example.note_managerment.dao.NoteDao;
+import com.example.note_managerment.dao.PriorityDao;
+import com.example.note_managerment.dao.StatusDao;
 import com.example.note_managerment.database.CategoryDatabase;
 import com.example.note_managerment.model.Note;
+import com.example.note_managerment.model.Priority;
 import com.example.note_managerment.view.INoteView;
 
 import java.text.SimpleDateFormat;
@@ -96,6 +100,46 @@ public class NoteController implements INoteController {
         }
     }
 
+   /* public void getListCategory() {
+        try {
+            CategoryDao categoryDao = statusDatabase.getCategoryDao();
+            Executor myExecutor = Executors.newSingleThreadExecutor();
+            myExecutor.execute(() -> {
+                categoryDao.getAllCategory();
+
+            });
+        } catch (Exception e) {
+            noteView.handleInsertEvent(e.getMessage(),view);
+        }
+    }
+
+    public List<Priority> getListPriority() {
+        try {
+            PriorityDao priorityDao = statusDatabase.getPriorityDao();
+            Executor myExecutor = Executors.newSingleThreadExecutor();
+            myExecutor.execute(() -> {
+                return priorityDao.getAllPriority();
+
+            });
+        } catch (Exception e) {
+            noteView.handleInsertEvent(e.getMessage(),view);
+        }
+    }
+
+
+    public void getListStatus() {
+        try {
+            StatusDao statusDao = statusDatabase.getStatusDao();
+            Executor myExecutor = Executors.newSingleThreadExecutor();
+            myExecutor.execute(() -> {
+                statusDao.getAllStatus();
+
+            });
+        } catch (Exception e) {
+            noteView.handleInsertEvent(e.getMessage(),view);
+        }
+    }*/
+
     @Override
     public void getListItem() {
         new getListItemTask().execute();
@@ -112,7 +156,7 @@ public class NoteController implements INoteController {
         @Override
         protected void onPostExecute(List<com.example.note_managerment.model.Note> notelist) {
             super.onPostExecute(notelist);
-            noteView.displayItem(view,notelist);
+            noteView.displayItemNote(view,notelist);
         }
     }
 }

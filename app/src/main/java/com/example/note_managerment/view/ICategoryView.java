@@ -16,7 +16,7 @@ public interface ICategoryView {
 
     boolean isEmpty(String textBox);
 
-    void displayItem(View view, List<Category> category);
+    void displayItemCategory(View view, List<Category> category);
 
     void handleInsertEvent(String message, View view);
 

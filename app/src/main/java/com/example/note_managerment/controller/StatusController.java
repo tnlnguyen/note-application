@@ -133,7 +133,7 @@ public class StatusController implements IStatusController {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-            statusView.displayItem(view,statusList);
+            statusView.displayItemStatus(view,statusList);
         }
     }
 

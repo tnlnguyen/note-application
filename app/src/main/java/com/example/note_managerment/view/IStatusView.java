@@ -15,7 +15,7 @@ public interface IStatusView {
 
     boolean isEmpty(String textBox);
 
-    void displayItem(View view, List<Status> status);
+    void displayItemStatus(View view, List<Status> status);
 
     void handleInsertEvent(String message, View view);
 

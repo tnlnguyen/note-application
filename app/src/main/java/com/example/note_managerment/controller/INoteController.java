@@ -7,4 +7,5 @@ public interface INoteController {
     void editNote(Map<String, Object> params);
     void deleteNote(Map<String, Object> params);
     void getListItem();
+
 }

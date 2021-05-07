@@ -126,11 +126,12 @@ public class PriorityFragment extends Fragment implements IPriorityView {
     }
 
     @Override
-    public void displayItem(View view, List<Priority> priorityList) {
+    public void displayItemPriority(View view, List<Priority> priorityList) {
         adapter=new PriorityAdapter(view,priorityList,recyclerView,priorityController);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
+
 
     @Override
     public void handleInsertEvent(String message,View view) {
