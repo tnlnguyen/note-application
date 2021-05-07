@@ -191,6 +191,7 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityViewHolder> im
     public void displayItem(View view, List<Priority> priorityList) {
         adapter=new PriorityAdapter(view,priorityList,recyclerView);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

@@ -202,6 +202,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> implements
     public void displayItem(View view, List<Note> note) {
         adapter=new NoteAdapter(view,note,recyclerView);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

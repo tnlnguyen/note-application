@@ -189,6 +189,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> im
     public void displayItem(View view, List<Category> category) {
         adapter=new CategoryAdapter(view,categoryList,recyclerView);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
 

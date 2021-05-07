@@ -139,7 +139,6 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusViewHolder> implem
 
             statusController.editStatus(params);
             statusController.getListItem();
-            notifyDataSetChanged();
             editDialog.dismiss();
         });
 
@@ -186,6 +185,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusViewHolder> implem
     public void displayItem(View view, List<Status> status) {
         adapter=new StatusAdapter(view,status,recyclerView);
         recyclerView.setAdapter(adapter);
+        notifyDataSetChanged();
     }
 
     @Override

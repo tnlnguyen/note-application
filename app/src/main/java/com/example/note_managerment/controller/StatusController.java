@@ -60,25 +60,6 @@ public class StatusController implements IStatusController {
         }
     }
 
-    /*@Override
-    public void insertStatus(Map<String, Object> params) {
-        try {
-            StatusDao statusDao = statusDatabase.getStatusDao();
-            Status status = new Status();
-            String txtStatus = (String) params.get("status");
-            status.setName(txtStatus);
-            status.setDate(currentDate);
-
-            if (!statusView.isEmpty(txtStatus)) {
-                statusDao.insertStatus(status);
-            } else {
-                statusView.handleInsertEvent("Please fill all empty fields!",view);
-            }
-        } catch (Exception e) {
-            statusView.handleInsertEvent(e.getMessage(),view);
-        }
-    }*/
-
     @Override
     public void editStatus(Map<String, Object> params) {
         try {
@@ -139,12 +120,6 @@ public class StatusController implements IStatusController {
         }
     }
 
-    /*@Override
-    public void getListItem() {
-        StatusDao statusDao = statusDatabase.getStatusDao();
-        List<com.example.note_managerment.model.Status> statusList = statusDao.getAllStatus();
-        statusView.displayItem(view,statusList);
-    }*/
 
 
 }

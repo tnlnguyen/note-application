@@ -124,7 +124,7 @@ public class CategoryFragment extends Fragment implements ICategoryView {
         public void displayItem(View view, List<Category> category) {
             adapter=new CategoryAdapter(view,category,recyclerView);
             recyclerView.setAdapter(adapter);
-
+            adapter.notifyDataSetChanged();
         }
 
         @Override
