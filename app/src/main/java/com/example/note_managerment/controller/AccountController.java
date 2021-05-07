@@ -56,7 +56,7 @@ public class AccountController implements IAccountController {
             myExecutor.execute(() -> {
                 AccountDao accountDao = (AccountDao) accountDatabase.getAccountDao();
                 if(accountDao.getUser(email,password) != null) {
-                    loginView.handlePreferences();
+                    loginView.handlePreferences(accountDao.getUser(email,password).getId());
                 } else {
                     ContextCompat.getMainExecutor((Context) loginView).execute(()  -> {
                         loginView.handleInsertEvent("Account is not found!");
@@ -125,13 +125,21 @@ public class AccountController implements IAccountController {
         Executor myExecutor = Executors.newSingleThreadExecutor();
         myExecutor.execute(() -> {
             AccountDao accountDao = accountDatabase.getAccountDao();
+            Account oldAccount = accountDao.getUser((String) params.get("email"), current);
+
+            if (oldAccount == null) {
+                ContextCompat.getMainExecutor(changePasswordContext.getContext()).execute(()  -> {
+                    changePasswordView.handleEvent("Current password is not match!", changePasswordContext);
+                });
+                return;
+            }
 
             Account account = new Account();
+            account.setId((Integer) params.get("id"));
             account.setEmail((String) params.get("email"));
             account.setPassword(newPassword);
 
             accountDao.updateUser(account);
-
             changePasswordView.savePreferences(params);
 
             ContextCompat.getMainExecutor(changePasswordContext.getContext()).execute(()  -> {

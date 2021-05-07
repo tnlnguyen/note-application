@@ -66,6 +66,7 @@ public class ChangePasswordFragment extends Fragment implements IChangePasswordV
             params.put("new", newPass.getText().toString() != null ? newPass.getText().toString() : "");
             params.put("confirm", passAgain.getText().toString() != null ? passAgain.getText().toString() : "");
             params.put("email", sharedPreferences.getString("email", ""));
+            params.put("id", sharedPreferences.getInt("id", 0));
 
             accountController.changePassword(params);
         });

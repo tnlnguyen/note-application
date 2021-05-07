@@ -72,11 +72,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
     }
 
     @Override
-    public void handlePreferences() {
+    public void handlePreferences(Integer Id) {
         if(checkBoxRemember.isChecked()) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("email", textEmail.getText().toString());
             editor.putString("password",textPassword.getText().toString());
+            editor.putInt("id",Id);
             editor.putBoolean("checked",true);
             editor.apply();
         }
@@ -84,6 +85,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove("email");
             editor.remove("password");
+            editor.remove("id");
             editor.remove("checked");
             editor.apply();
         }

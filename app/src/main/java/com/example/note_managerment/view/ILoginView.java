@@ -5,7 +5,7 @@ public interface ILoginView {
 
     void handleEvent();
 
-    void handlePreferences();
+    void handlePreferences(Integer Id);
 
     void handleInsertEvent(String message);
 }
