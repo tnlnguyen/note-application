@@ -1,7 +1,9 @@
 package com.example.note_managerment.adapter;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -31,7 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> implements ICategoryAdapter, ICategoryView {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> implements ICategoryAdapter {
 
     Context context;
     List<Category> categoryList;
@@ -43,17 +46,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> im
     CategoryDatabase userDatabase;
     Button closeDialog,editCategory;
 
+    ProgressDialog progress;
+
     public CategoryAdapter adapter;
     public RecyclerView recyclerView;
 
     ICategoryController categoryController;
 
+
     String currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
 
-    public CategoryAdapter(View view,List<Category> categoryList, RecyclerView recyclerView) {
+    public CategoryAdapter(View view,List<Category> categoryList, RecyclerView recyclerView, ICategoryController categoryController) {
         this.view = view;
         this.categoryList = categoryList;
         this.recyclerView = recyclerView;
+        this.categoryController = categoryController;
     }
 
 
@@ -71,8 +78,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> im
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
 
         // Inflate the layout for this fragment
-        categoryController  = new CategoryController(this,view);
-
         holder.name.setText(categoryList.get(position).getName());
         holder.date.setText(categoryList.get(position).getDate());
 
@@ -149,7 +154,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> im
         closeDialog.setOnClickListener(c -> {
             editDialog.dismiss();
         });
-
     }
 
     @Override
@@ -166,34 +170,5 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> im
         categoryController.deleteCategory(params);
         categoryController.getListItem();
 
-    }
-
-    @Override
-    public void insertCategory(View view) {
-
-
-
-    }
-
-    @Override
-    public void initVariable(View view) {
-
-    }
-
-    @Override
-    public boolean isEmpty(String textBox) {
-        return false;
-    }
-
-    @Override
-    public void displayItem(View view, List<Category> category) {
-        adapter=new CategoryAdapter(view,categoryList,recyclerView);
-        recyclerView.setAdapter(adapter);
-    }
-
-
-    @Override
-    public void handleInsertEvent(String message, View view) {
-        Toast.makeText(view.getContext(), message, Toast.LENGTH_LONG).show();
     }
 }

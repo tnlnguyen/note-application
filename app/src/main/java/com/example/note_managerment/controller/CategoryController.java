@@ -1,9 +1,11 @@
 package com.example.note_managerment.controller;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.room.Room;
 
 
@@ -25,13 +27,15 @@ import java.util.concurrent.Executors;
 public class CategoryController implements ICategoryController {
     ICategoryView categoryView;
     View view;
+    FragmentActivity fragmentActivity;
     private CategoryDatabase categoryDatabase;
     String currentDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(new Date());
 
 
-    public CategoryController(ICategoryView verificationView, View view) {
-        this.categoryView = verificationView;
+    public CategoryController(ICategoryView categoryView, View view, FragmentActivity fragmentActivity) {
+        this.categoryView = categoryView;
         this.view=view;
+        this.fragmentActivity = fragmentActivity;
         categoryDatabase = Room.databaseBuilder(view.getContext(), CategoryDatabase.class, CategoryDatabase.DB_NAME).build();
     }
 
@@ -76,7 +80,6 @@ public class CategoryController implements ICategoryController {
         } catch (Exception e) {
             categoryView.handleInsertEvent(e.getMessage(),view);
         }
-
     }
 
     @Override
@@ -102,10 +105,21 @@ public class CategoryController implements ICategoryController {
 
     @Override
     public void getListItem() {
-        new getListItemTask().execute();
+        new getListItemTask(fragmentActivity).execute();
     }
 
     private class getListItemTask extends AsyncTask<Void, List<Category>, List<Category>> {
+        private ProgressDialog dialog;
+
+        public getListItemTask(FragmentActivity fragmentActivity) {
+            dialog = new ProgressDialog(fragmentActivity);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Doing something, please wait.");
+            dialog.show();
+        }
         @Override
         public List<com.example.note_managerment.model.Category> doInBackground(Void... maps) {
             CategoryDao categoryDao = categoryDatabase.getCategoryDao();
@@ -116,6 +130,9 @@ public class CategoryController implements ICategoryController {
         @Override
         protected void onPostExecute(List<com.example.note_managerment.model.Category> categoryList) {
             super.onPostExecute(categoryList);
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
             categoryView.displayItem(view,categoryList);
         }
     }

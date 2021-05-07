@@ -1,19 +1,23 @@
 package com.example.note_managerment.ui.category;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,8 +51,9 @@ public class CategoryFragment extends Fragment implements ICategoryView {
         Button closeDialog,addCategory;
         public Dialog insertDialog;
 
-
         ICategoryController categoryController;
+
+        public FragmentActivity   fragmentActivity;
 
         public View onCreateView(@NonNull LayoutInflater inflater,
                                  ViewGroup container, Bundle savedInstanceState) {
@@ -59,11 +64,11 @@ public class CategoryFragment extends Fragment implements ICategoryView {
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
             // Inflate the layout for this fragment
-            categoryController  = new CategoryController(this,view);
+            categoryController  = new CategoryController(this,view, getActivity());
             //* Generate item on view *//*
             initVariable(view);
             categoryController.getListItem();
-
+            fragmentActivity = getActivity();
 
 
             //* Event initialization *//*
@@ -91,7 +96,15 @@ public class CategoryFragment extends Fragment implements ICategoryView {
                 params.put("category", txtCategory.getText().toString());
 
                 categoryController.insertCategory(params);
-                categoryController.getListItem();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        categoryController.getListItem();
+
+                    }
+                }, 1000);
+
                 insertDialog.dismiss();
             });
 
@@ -122,7 +135,7 @@ public class CategoryFragment extends Fragment implements ICategoryView {
 
         @Override
         public void displayItem(View view, List<Category> category) {
-            adapter=new CategoryAdapter(view,category,recyclerView);
+            adapter=new CategoryAdapter(view,category,recyclerView, categoryController);
             recyclerView.setAdapter(adapter);
 
         }
@@ -132,4 +145,10 @@ public class CategoryFragment extends Fragment implements ICategoryView {
             Toast.makeText(view.getContext(), message, Toast.LENGTH_LONG).show();
 
         }
+
+    @Override
+    public FragmentActivity getFragmentActivity() {
+        return fragmentActivity;
+    }
+
 }

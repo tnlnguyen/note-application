@@ -13,11 +13,11 @@ public interface ICategoryAdapter {
 
     void deleteCategory(View view,int position);
 
-    void initVariable(View view);
-
-    boolean isEmpty(String textBox);
-
-    void displayItem(View view, List<Category> category);
-
-    void handleInsertEvent(String message, View view);
+//    void initVariable(View view);
+//
+//    boolean isEmpty(String textBox);
+//
+//    void displayItem(View view, List<Category> category);
+//
+//    void handleInsertEvent(String message, View view);
 }
