@@ -38,7 +38,7 @@ public class ChangePasswordFragment extends Fragment implements IChangePasswordV
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sharedPreferences = this.getActivity().getSharedPreferences("DataLogin", Context.MODE_PRIVATE);
-        accountController = new AccountController(null,null, this);
+        accountController = new AccountController(null,null, this, view);
 
         changePassWord();
         processChangePassword();
@@ -48,7 +48,7 @@ public class ChangePasswordFragment extends Fragment implements IChangePasswordV
     public void changePassWord() {
         currentPass = getView().findViewById(R.id.currentPass);
         newPass = getView().findViewById(R.id.newPass);
-        passAgain = getView().findViewById(R.id.newPass);
+        passAgain = getView().findViewById(R.id.passAgain);
         btn_change = getView().findViewById(R.id.btn_change);
         btn_home = getView().findViewById(R.id.btn_home);
     }
@@ -62,9 +62,9 @@ public class ChangePasswordFragment extends Fragment implements IChangePasswordV
         btn_change.setOnClickListener(v -> {
             Map<String, Object> params = new HashMap<>();
 
-            params.put("current", currentPass != null ? currentPass : "");
-            params.put("new", newPass != null ? newPass : "");
-            params.put("confirm", passAgain != null ? passAgain : "");
+            params.put("current", currentPass.getText().toString() != null ? currentPass.getText().toString() : "");
+            params.put("new", newPass.getText().toString() != null ? newPass.getText().toString() : "");
+            params.put("confirm", passAgain.getText().toString() != null ? passAgain.getText().toString() : "");
             params.put("email", sharedPreferences.getString("email", ""));
 
             accountController.changePassword(params);

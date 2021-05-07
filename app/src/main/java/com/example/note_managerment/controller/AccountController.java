@@ -24,13 +24,15 @@ public class AccountController implements IAccountController {
     ILoginView loginView;
     ISignupView signupView;
     IChangePasswordView changePasswordView;
+    View changePasswordContext;
 
     private CategoryDatabase accountDatabase;
 
-    public AccountController(ILoginView loginView, ISignupView signupView, IChangePasswordView changePasswordView) {
+    public AccountController(ILoginView loginView, ISignupView signupView, IChangePasswordView changePasswordView, View view) {
         this.loginView = loginView;
         this.signupView = signupView;
         this.changePasswordView = changePasswordView;
+        this.changePasswordContext = view;
 
         if (loginView != null) {
             accountDatabase = Room.databaseBuilder((Context) loginView, CategoryDatabase.class, CategoryDatabase.DB_NAME)            .fallbackToDestructiveMigration()
@@ -39,7 +41,7 @@ public class AccountController implements IAccountController {
             accountDatabase = Room.databaseBuilder((Context) signupView, CategoryDatabase.class, CategoryDatabase.DB_NAME)            .fallbackToDestructiveMigration()
                     .build();
         } else {
-            accountDatabase = Room.databaseBuilder((Context) changePasswordView, CategoryDatabase.class, CategoryDatabase.DB_NAME)            .fallbackToDestructiveMigration()
+            accountDatabase = Room.databaseBuilder(view.getContext(), CategoryDatabase.class, CategoryDatabase.DB_NAME)            .fallbackToDestructiveMigration()
                     .build();
         }
     }
@@ -113,9 +115,11 @@ public class AccountController implements IAccountController {
 
         if(isChangePassEmpty(current, newPassword, confirm))
         {
-            changePasswordView.handleEvent("Please fill all empty fields!", (View) changePasswordView);
-        } else if(isNewPasstrue(newPassword, confirm)){
-            changePasswordView.handleEvent("Password doesn't match!", (View) changePasswordView);
+            changePasswordView.handleEvent("Please fill all empty fields!", changePasswordContext);
+            return;
+        } else if(!isNewPasstrue(newPassword, confirm)){
+            changePasswordView.handleEvent("Password doesn't match!", changePasswordContext);
+            return;
         }
 
         Executor myExecutor = Executors.newSingleThreadExecutor();
@@ -130,8 +134,8 @@ public class AccountController implements IAccountController {
 
             changePasswordView.savePreferences(params);
 
-            ContextCompat.getMainExecutor((Context) changePasswordView).execute(()  -> {
-                changePasswordView.handleEvent("Successfully!", (View) changePasswordView);
+            ContextCompat.getMainExecutor(changePasswordContext.getContext()).execute(()  -> {
+                changePasswordView.handleEvent("Successfully!", changePasswordContext);
             });
         });
     }
