@@ -35,8 +35,11 @@ public class AccountController implements IAccountController {
         if (loginView != null) {
             accountDatabase = Room.databaseBuilder((Context) loginView, CategoryDatabase.class, CategoryDatabase.DB_NAME)            .fallbackToDestructiveMigration()
                     .build();
-        } else {
+        } else if (signupView != null) {
             accountDatabase = Room.databaseBuilder((Context) signupView, CategoryDatabase.class, CategoryDatabase.DB_NAME)            .fallbackToDestructiveMigration()
+                    .build();
+        } else {
+            accountDatabase = Room.databaseBuilder((Context) changePasswordView, CategoryDatabase.class, CategoryDatabase.DB_NAME)            .fallbackToDestructiveMigration()
                     .build();
         }
     }

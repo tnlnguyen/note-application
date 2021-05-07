@@ -38,7 +38,7 @@ public class ChangePasswordFragment extends Fragment implements IChangePasswordV
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sharedPreferences = this.getActivity().getSharedPreferences("DataLogin", Context.MODE_PRIVATE);
-        accountController = new AccountController(null,null, (IChangePasswordView) view);
+        accountController = new AccountController(null,null, this);
 
         changePassWord();
         processChangePassword();
