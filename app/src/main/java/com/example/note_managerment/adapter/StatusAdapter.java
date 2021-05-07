@@ -103,7 +103,6 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusViewHolder> implem
                 //show dialog
                 //showDialog("Status Form",null);
             }
-
         });
     }
 
@@ -140,6 +139,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusViewHolder> implem
 
             statusController.editStatus(params);
             statusController.getListItem();
+            notifyDataSetChanged();
             editDialog.dismiss();
         });
 
@@ -161,6 +161,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusViewHolder> implem
 
         statusController.deleteStatus(params);
         statusController.getListItem();
+        notifyDataSetChanged();
     }
 
     @Override

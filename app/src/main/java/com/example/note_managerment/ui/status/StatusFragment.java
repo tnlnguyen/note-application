@@ -87,6 +87,7 @@ public class StatusFragment extends Fragment implements IStatusView {
 
             statusController.insertStatus(params);
             statusController.getListItem();
+
             insertDialog.dismiss();
         });
 
@@ -118,6 +119,7 @@ public class StatusFragment extends Fragment implements IStatusView {
     public void displayItem(View view,List<Status> status) {
         adapter=new StatusAdapter(view,status,recyclerView);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

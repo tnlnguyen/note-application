@@ -1,4 +1,4 @@
-package com.uniapp.noteapplication.viewholder;
+package com.example.note_managerment.viewholder;
 
 import android.view.View;
 import android.widget.TextView;
@@ -7,7 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uniapp.noteapplication.R;
+import com.example.note_managerment.R;
+
 
 public class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener,View.OnClickListener {
     public TextView txtName, txtCategory, txtPriority, txtStatus, txtPlanDate, txtCreatedDate;
@@ -23,7 +24,7 @@ public class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnLo
         txtPlanDate = (TextView)itemView.findViewById(R.id.txtPlandate);
         txtCreatedDate = (TextView)itemView.findViewById(R.id.txtCreateDate);
 
-        constraintLayout_item = (ConstraintLayout) itemView.findViewById(R.id.constraintlayoutStatusItem);
+        constraintLayout_item = (ConstraintLayout) itemView.findViewById(R.id.ConstraintLayoutNoteItem);
         //constraintLayout_wrapper = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_wrapper);
 
         itemView.setOnClickListener(this);
