@@ -26,7 +26,7 @@ public class SignupActivity extends AppCompatActivity implements ISignupView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        accountController = new AccountController(null, this);
+        accountController = new AccountController(null, this, null);
 
         initVariable();
         handleEvent();

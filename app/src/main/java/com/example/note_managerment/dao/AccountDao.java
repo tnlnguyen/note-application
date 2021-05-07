@@ -25,4 +25,10 @@ public interface AccountDao {
 
     @Query("SELECT * FROM account WHERE email=(:email)")
     Account checkUser(String email);
+
+    @Query("SELECT * FROM account WHERE password=(:password)")
+    Account getUser(String password);
+
+    @Query("SELECT * FROM account WHERE id=(:id)")
+    Account getUser(Integer id);
 }
