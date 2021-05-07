@@ -59,6 +59,7 @@ public class NoteFragment extends Fragment implements INoteView {
     Button btnAddEdit,btnClose,btChooserDate;
     Spinner spinCategory, spinPriority, spinStatus;
     private int lastSelectedYear = -1,lastSelectedMonth =-1 ,lastSelectedDayOfMonth =-1;
+    DatePickerDialog datePickerDialog_end;
     public Dialog insertDialog;
 
     INoteController noteController;
@@ -199,9 +200,8 @@ public class NoteFragment extends Fragment implements INoteView {
         Calendar cal = Calendar.getInstance();
         cal.set(year, monthOfYear, dayOfMonth, 0, 0, 0);
         Date chosenDate = cal.getTime();
-        // Format the date using style full
-        DateFormat df_full = DateFormat.getDateInstance(DateFormat.FULL);
-        String df_full_str = df_full.format(chosenDate);
+
+        String df_full_str = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(chosenDate);
         return  df_full_str;
     }
 }
